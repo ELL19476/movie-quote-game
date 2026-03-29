@@ -1,5 +1,4 @@
-import Image from "next/image";
-import QuoteBox from "./components/QuoteBox";
+import QuoteClient from "./QuoteClient";
 import quotesData from "@/data/quotes.json";
 import { Quote } from "./types/Quote";
 
@@ -9,11 +8,7 @@ function getRandomQuote(): Quote {
 }
 
 export default function Home() {
-    const quote = getRandomQuote();
+    const quote = getRandomQuote(); // SERVER ONLY → safe
 
-    return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
-            <QuoteBox quote={quote} />
-        </div>
-    );
+    return <QuoteClient quote={quote} />;
 }
