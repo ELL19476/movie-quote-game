@@ -28,8 +28,8 @@ export default async function MisquotePage({
     }
 
     const score = (data.sentiment.score + 1) / 2 + data.checklang.score / 2;
-    var scoreText = "";
-    var scoreColor = "";
+    let scoreText = "";
+    let scoreColor = "";
     if (score > 0.3 && score < 0.7) {
         scoreText = "neutral";
         scoreColor = "fill-zinc-500";

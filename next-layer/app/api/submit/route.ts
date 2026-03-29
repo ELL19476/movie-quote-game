@@ -9,8 +9,8 @@ export type ScoreEntry = {
     // user submitted text (misquote)
     text: string;
 
-    checklang: {imput: string, score: number};
-    sentiment: {imput: string, score: number};
+    checklang: { imput: string, score: number };
+    sentiment: { imput: string, score: number };
 
     finalScore: number
 };
@@ -34,6 +34,13 @@ export async function POST(request: Request) {
     const text = (body.text || "")
         .replace(/\s+([,.!?;])/g, "$1")
         .trim();
+
+    if (!text || text.length === 0) {
+        return Response.json(
+            { error: "Text cannot be empty" },
+            { status: 400 }
+        );
+    }
 
     try {
         const checklangRes = await fetch(

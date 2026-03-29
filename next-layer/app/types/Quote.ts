@@ -1,3 +1,4 @@
 export type Quote = {
-    text: string
+    text: string,
+    movie: string
 }

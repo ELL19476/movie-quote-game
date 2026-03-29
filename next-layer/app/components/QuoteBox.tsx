@@ -3,12 +3,17 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Quote } from "../types/Quote";
+import { error } from "console";
+
+type Result = {
+    error?: string; id?: string
+}
 
 type QuoteBoxProps = {
     quote: Quote;
     onSubmit?: (
         tokens: string[],
-        result: { input: string; score: number; id: string }
+        result: Result
     ) => void;
 };
 
@@ -26,7 +31,7 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<{ score: number } | null>(null);
+    const [result, setResult] = useState<Result | null>(null);
 
     // -----------------------------
     // allowed frequency per word
@@ -52,6 +57,8 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
     // validation
     // -----------------------------
     const isValid = useMemo(() => {
+        if (inputTokens.length === 0) return false;
+
         const used = new Map<string, number>();
 
         for (const t of inputTokens) {
@@ -163,12 +170,18 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
             const data = await res.json();
 
-            setResult(data);
-            onSubmit?.(inputTokens, data);
+            if (!res.ok) {
+                // propagate backend error
+                setResult({ error: data?.error });
+            }
+            else {
+                setResult(data);
+                onSubmit?.(inputTokens, data);
 
-            router.push(`/misquotes/${data.id}`);
-        } catch (err) {
-            console.error("submit failed:", err);
+                router.push(`/misquotes/${data.id}`);
+            }
+        } catch (err: any) {
+            throw err
         } finally {
             setLoading(false);
         }
@@ -196,6 +209,7 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                     );
                 })}
             </div>
+            - {quote.movie}
 
             {/* INPUT */}
             <input
@@ -211,7 +225,7 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
             {!isValid && (
                 <div className="text-red-500 text-base">
-                    Too many uses of a word.
+                    You did not use words from the Quote.
                 </div>
             )}
 
@@ -238,9 +252,9 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                 </button>
             </div>
 
-            {result && (
+            {result && result.error && (
                 <div className="text-zinc-600">
-                    Score: {result.score}
+                    Error: {result.error}
                 </div>
             )}
         </div>
