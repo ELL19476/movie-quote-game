@@ -12,7 +12,7 @@ export type ScoreRequest = {
 // Response type
 export type ScoreResponse = {
     input: string
-    score: number // -1 to 1
+    score: number
 }
 
 function sentimentScore(

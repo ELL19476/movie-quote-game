@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getRankForId, getScore } from "../../ScoresStore";
+import { getRankForId, getScore, peekScore } from "../../ScoresStore";
 
 export async function GET(
     request: NextRequest,
@@ -9,15 +9,22 @@ export async function GET(
 
     const entry = await getScore(id);
 
-    if (!entry) {
+    if (entry) {
+        return Response.json({
+            ...entry,
+            rank: getRankForId(id),
+        });
+    }
+
+    if (peekScore(id)) {
         return Response.json(
-            { error: "Not found" },
-            { status: 404 }
+            { error: "Score not ready yet" },
+            { status: 503 }
         );
     }
 
-    return Response.json({
-        ...entry,
-        rank: getRankForId(id),
-    });
+    return Response.json(
+        { error: "Not found" },
+        { status: 404 }
+    );
 }

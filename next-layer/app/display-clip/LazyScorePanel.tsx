@@ -20,21 +20,30 @@ export default function LazyScorePanel({ scoreId }: { scoreId: string }) {
     setEntry(null);
     setError(null);
 
-    fetch(`/api/score/${encodeURIComponent(scoreId)}`, { cache: "no-store" })
-      .then(async (res) => {
-        if (!res.ok) {
-          throw new Error(res.status === 404 ? "Score not found" : "Failed to load score");
+    const url = `/api/score/${encodeURIComponent(scoreId)}`;
+
+    async function load() {
+      while (!cancelled) {
+        const res = await fetch(url, { cache: "no-store" });
+        if (res.ok) {
+          const data = (await res.json()) as ScoreEntry;
+          if (!cancelled) setEntry(data);
+          return;
         }
-        return res.json() as Promise<ScoreEntry>;
-      })
-      .then((data) => {
-        if (!cancelled) setEntry(data);
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : "Failed to load score");
+        if (res.status === 503) {
+          await new Promise((r) => setTimeout(r, 250));
+          continue;
         }
-      });
+        if (res.status === 404) {
+          if (!cancelled) setError("Score not found");
+          return;
+        }
+        if (!cancelled) setError("Failed to load score");
+        return;
+      }
+    }
+
+    load();
 
     return () => {
       cancelled = true;

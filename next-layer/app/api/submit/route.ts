@@ -16,14 +16,6 @@ export type ScoreEntry = {
     finalScore: number | undefined
 };
 
-const globalScores = globalThis as unknown as {
-    scores?: Map<string, ScoreEntry>;
-};
-
-if (!globalScores.scores) {
-    globalScores.scores = new Map<string, ScoreEntry>();
-}
-
 function generateId() {
     return crypto.randomUUID();
 }

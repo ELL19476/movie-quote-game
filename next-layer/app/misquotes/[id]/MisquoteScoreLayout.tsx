@@ -118,17 +118,30 @@ export default function MisquoteScoreLayout({
     setData(null);
     setError(null);
 
-    fetch(`/api/score/${encodeURIComponent(id)}`, { cache: "no-store" })
-      .then(async (res) => {
-        if (!res.ok) throw new Error(res.status === 404 ? "Not found" : "Failed to load score");
-        return res.json() as Promise<ScorePayload>;
-      })
-      .then((payload) => {
-        if (!cancelled) setData(payload);
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load score");
-      });
+    const url = `/api/score/${encodeURIComponent(id)}`;
+
+    async function load() {
+      while (!cancelled) {
+        const res = await fetch(url, { cache: "no-store" });
+        if (res.ok) {
+          const payload = (await res.json()) as ScorePayload;
+          if (!cancelled) setData(payload);
+          return;
+        }
+        if (res.status === 503) {
+          await new Promise((r) => setTimeout(r, 250));
+          continue;
+        }
+        if (res.status === 404) {
+          if (!cancelled) setError("Not found");
+          return;
+        }
+        if (!cancelled) setError("Failed to load score");
+        return;
+      }
+    }
+
+    load();
 
     return () => {
       cancelled = true;
@@ -157,18 +170,18 @@ export default function MisquoteScoreLayout({
   let scoreText = "neutral";
   if (data) {
     if (score > 0.3 && score < 0.7) scoreText = "neutral";
-    else if (score < 0.3) scoreText = "shocked";
+    else if (score >= 0.7) scoreText = "shocked";
     else scoreText = "happy";
   }
 
   const ringR = 44;
   const ringC = 2 * Math.PI * ringR;
-  const ringOffset = ringC * (score);
+  const ringOffset = ringC * (1 - score);
 
   const overallGoodPct = data ? clampPct(score * 100) : 0;
   const grammarPct = data ? clampPct((data.checklang?.score ?? 0) * 100) : 0;
   const sentimentPct = data
-    ? clampPct(((-(data.sentiment?.score ?? 0) + 1) / 2) * 100)
+    ? clampPct((data.sentiment?.score ?? 0) * 100)
     : 0;
 
   const reactionGif =

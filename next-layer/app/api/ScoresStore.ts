@@ -6,10 +6,6 @@ type ScoresGlobal = {
 
 const globalScores = globalThis as unknown as ScoresGlobal;
 
-type ScoreWaiter = (entry: ScoreEntry) => void;
-
-const waitersById = new Map<string, ScoreWaiter[]>();
-
 function getStore() {
     if (!globalScores.scores) {
         globalScores.scores = new Map<string, ScoreEntry>();
@@ -21,38 +17,59 @@ function isScoreComplete(entry: ScoreEntry): boolean {
     return entry.checklang !== undefined && entry.sentiment !== undefined;
 }
 
+function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
- * Resolves when the entry exists and both checklang and sentiment are populated
- * (async scoring finished). If there is no entry for id, resolves to undefined.
+ * Waits until the entry exists and both checklang and sentiment are set.
+ * Uses polling instead of waiters so we never miss a completion due to
+ * microtask / ordering races (waiter registered after setScore already ran).
+ *
+ * Note: In-memory store is per Node process; multiple serverless instances do
+ * not share this map — use a shared store in production if needed.
  */
-export function getScore(id: string): Promise<ScoreEntry | undefined> {
-    const entry = getStore().get(id);
-    if (!entry) {
-        return Promise.resolve(undefined);
+export async function getScore(
+    id: string,
+    options?: { pollIntervalMs?: number; maxWaitMs?: number }
+): Promise<ScoreEntry | undefined> {
+    const pollIntervalMs = options?.pollIntervalMs ?? 100;
+    const maxWaitMs = options?.maxWaitMs ?? 120_000;
+    const deadline = Date.now() + maxWaitMs;
+    const waitStart = Date.now();
+    /** If still no row after this, treat id as unknown (fast 404). */
+    const entryGraceMs = 3000;
+
+    while (Date.now() < deadline) {
+        let entry = getStore().get(id);
+        if (!entry) {
+            if (Date.now() - waitStart < entryGraceMs) {
+                await sleep(pollIntervalMs);
+                continue;
+            }
+            return undefined;
+        }
+        if (isScoreComplete(entry)) {
+            return entry;
+        }
+        // Let pending microtasks run (e.g. setScore from submit) before we sleep
+        await Promise.resolve();
+        entry = getStore().get(id);
+        if (entry && isScoreComplete(entry)) {
+            return entry;
+        }
+        await sleep(pollIntervalMs);
     }
-    if (isScoreComplete(entry)) {
-        return Promise.resolve(entry);
+
+    const last = getStore().get(id);
+    if (last && isScoreComplete(last)) {
+        return last;
     }
-    return new Promise<ScoreEntry>((resolve) => {
-        const list = waitersById.get(id) ?? [];
-        list.push(resolve);
-        waitersById.set(id, list);
-    });
+    return undefined;
 }
 
 export function setScore(entry: ScoreEntry) {
     getStore().set(entry.id, entry);
-    if (!isScoreComplete(entry)) {
-        return;
-    }
-    const waiters = waitersById.get(entry.id);
-    if (!waiters?.length) {
-        return;
-    }
-    waitersById.delete(entry.id);
-    for (const w of waiters) {
-        w(entry);
-    }
 }
 
 /** Current entry from memory if present (may still be awaiting checklang/sentiment). */
