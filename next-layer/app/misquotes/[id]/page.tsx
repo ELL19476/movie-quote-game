@@ -1,6 +1,7 @@
 import QuoteBox from "@/app/components/QuoteBox";
+import { ScoreEntry } from "../../api/submit/route";
 
-async function getScore(id: string) {
+async function getScore(id: string): Promise<ScoreEntry | null> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/${id}`, {
         cache: "no-store",
     });
@@ -40,7 +41,7 @@ export default async function MisquotePage({
                 <div className="text-lg">
                     Score:{" "}
                     <span className="font-bold">
-                        {data.score}
+                        {data.sentiment.score} {data.checklang.score}
                     </span>
                 </div>
             </div>

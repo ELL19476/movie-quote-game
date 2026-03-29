@@ -1,4 +1,4 @@
-type ScoreEntry = {
+export type ScoreEntry = {
     id: string;
 
     // original quote shown to user
@@ -7,7 +7,8 @@ type ScoreEntry = {
     // user submitted text (misquote)
     text: string;
 
-    score: number;
+    checklang: {imput: string, score: number};
+    sentiment: {imput: string, score: number};
 };
 
 const globalScores = globalThis as unknown as {
@@ -42,7 +43,19 @@ export async function POST(request: Request) {
             }
         );
 
-        const data = await checklangRes.json();
+        const sentimentRes = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/sentiment`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text }),
+            }
+        );
+
+        const checklangData = await checklangRes.json();
+        const sentimentData = await sentimentRes.json();
 
         const id = generateId();
 
@@ -50,7 +63,8 @@ export async function POST(request: Request) {
             id,
             quote, // original
             text,  // misquote
-            score: data.score ?? 0,
+            checklang: checklangData ?? 0,
+            sentiment: sentimentData ?? 0,
         };
 
         globalScores.scores!.set(id, entry);

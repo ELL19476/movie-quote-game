@@ -1,5 +1,8 @@
+import { ScoreEntry } from "../../submit/route";
+
+// TODO: Make this persistent
 const globalScores = globalThis as unknown as {
-    scores?: Map<string, any>;
+    scores?: Map<string, ScoreEntry>;
 };
 
 if (!globalScores.scores) {
