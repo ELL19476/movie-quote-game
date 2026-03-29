@@ -1,4 +1,5 @@
 import { Quote } from "../../types/Quote";
+import { setScore } from "../ScoresStore";
 
 export type ScoreEntry = {
     id: string;
@@ -43,6 +44,8 @@ export async function POST(request: Request) {
     }
 
     try {
+        const id = generateId();
+
         Promise.all([
             fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checklang`, {
                 method: "POST",
@@ -57,20 +60,17 @@ export async function POST(request: Request) {
             }).then((r) => r.json()),
         ])
             .then(([checklangData, sentimentData]) => {
-                const id = generateId();
-
                 const entry: ScoreEntry = {
                     id,
                     quote,
                     text,
                     checklang: checklangData.score,
                     sentiment: sentimentData.score,
-                    finalScore: (sentimentData.score + 1) / 2 + checklangData.score / 2.
+                    finalScore: (sentimentData.score + 1) / 2 + checklangData.score / 2 // TODO Change calc
                 };
+                console.log("entry", entry);
 
-                globalScores.scores!.set(id, entry);
-
-                return Response.json(entry);
+                setScore(entry);
             })
             .catch((err) => {
                 console.error("Submit error:", err);
@@ -81,8 +81,6 @@ export async function POST(request: Request) {
                 );
             });
 
-        const id = generateId();
-
         const entry: ScoreEntry = {
             id,
             quote, // original
@@ -92,7 +90,7 @@ export async function POST(request: Request) {
             finalScore: undefined
         };
 
-        globalScores.scores!.set(id, entry);
+        setScore(entry);
 
         return Response.json(entry);
     } catch (err) {
