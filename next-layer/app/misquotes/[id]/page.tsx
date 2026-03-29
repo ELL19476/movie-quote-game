@@ -1,5 +1,6 @@
 import QuoteBox from "@/app/components/QuoteBox";
 import { ScoreEntry } from "../../api/submit/route";
+import Link from "next/link";
 
 async function getScore(id: string): Promise<ScoreEntry | null> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/${id}`, {
@@ -44,6 +45,12 @@ export default async function MisquotePage({
                         {data.sentiment.score} {data.checklang.score}
                     </span>
                 </div>
+                <Link
+                    href="/leaderboard"
+                    className="mt-4 inline-block text-center px-5 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black"
+                >
+                    View Leaderboard
+                </Link>
             </div>
         </div>
     );

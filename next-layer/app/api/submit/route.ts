@@ -11,6 +11,8 @@ export type ScoreEntry = {
 
     checklang: {imput: string, score: number};
     sentiment: {imput: string, score: number};
+
+    finalScore: number
 };
 
 const globalScores = globalThis as unknown as {
@@ -67,6 +69,7 @@ export async function POST(request: Request) {
             text,  // misquote
             checklang: checklangData ?? 0,
             sentiment: sentimentData ?? 0,
+            finalScore: checklangData.score * sentimentData.score
         };
 
         globalScores.scores!.set(id, entry);
