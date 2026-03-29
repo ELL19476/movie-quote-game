@@ -71,13 +71,13 @@ export function parseStampsText(raw: string): StampCue[] {
 
 function movieLabelFromTimestampFilename(filename: string): string {
     const base = path.basename(filename);
-    const m = /^stamps_(\d+)$/.exec(base);
+    const m = /^clip_(\d+).json$/.exec(base);
     if (m) return `Clip ${m[1]}`;
     return base;
 }
 
 export function idFromTimestampFilename(filename: string): number {
-    const match = filename.match(/^stamps_(\d+)$/);
+    const match = filename.match(/^clip_(\d+).json$/);
 
     if (!match) throw new Error("File not found");
     console.log("ID From Timestamp Filename", match[1]);
@@ -90,7 +90,7 @@ export function findWordInTimestampFileByID(id: number, word: string): number {
         process.cwd(),
         "public",
         "timestamps",
-        `stamps_${id}`
+        `clip_${id}.json`
     );
 
     const raw = fs.readFileSync(filePath, "utf-8");
@@ -104,7 +104,7 @@ export function findWordInTimestampFileByID(id: number, word: string): number {
 
     if (!match) {
         throw new Error(
-            `Word "${word}" not found in timestamp file stamps_${id}`
+            `Word "${word}" not found in timestamp file clip_${id}.json`
         );
     }
 
