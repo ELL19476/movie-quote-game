@@ -1,14 +1,16 @@
-"use client"
-
-import type { Metadata } from "next";
-import DisplayClipCanvas from "./DisplayClipCanvas";
-import VideoSequencer from '../components/VideoPlayer.tsx'; 
-
+import { readFileSync } from "fs";
+import path from "path";
+import VideoSequencer from "../components/VideoPlayer";
+import { clipTimestampsFromText } from "@/lib/stamps";
 
 export default function DisplayClipPage() {
-    return (
-        <div className="h-screen w-full bg-black">
-		<VideoSequencer />	
-        </div>
-    );
+  const stampPath = path.join(process.cwd(), "public", "timestamps", "stamps_1");
+  const raw = readFileSync(stampPath, "utf-8");
+  const timestamps = clipTimestampsFromText(raw);
+
+  return (
+    <div className="h-screen w-full bg-black">
+      <VideoSequencer timestamps={timestamps} />
+    </div>
+  );
 }

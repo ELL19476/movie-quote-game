@@ -1,53 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+"use client";
 
-// Hilfsfunktion: Wandelt das SRT-Zeitformat (00:00:02,230) in Sekunden als Float um
-const parseTimeToSeconds = (timeStr: string): number => {
-  const [time, ms] = timeStr.split(',');
-  const [hours, minutes, seconds] = time.split(':').map(Number);
-  return hours * 3600 + minutes * 60 + seconds + Number(ms) / 1000;
+import React, { useEffect, useRef, useState } from "react";
+import type { ClipTimestamp } from "@/lib/stamps";
+
+type VideoSequencerProps = {
+  timestamps: ClipTimestamp[];
 };
 
-interface ClipTimestamp {
-  start: number;
-  end: number;
-}
-
-const VideoSequencer: React.FC = () => {
+const VideoSequencer: React.FC<VideoSequencerProps> = ({ timestamps }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [timestamps, setTimestamps] = useState<ClipTimestamp[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sequenceIndex, setSequenceIndex] = useState(0);
 
   // Debug-Sequenz: Die Zahlen entsprechen dem N-ten Element in der Datei
   const playSequence = [1, 5, 3, 4];
-
-  // 1. Timestamps einlesen und parsen
-  useEffect(() => {
-    const fetchTimestamps = async () => {
-      try {
-        const response = await fetch('/timestamps/stamps_1');
-        const text = await response.text();
-
-        // Regex sucht gezielt nach den Start- und Endzeiten, ignoriert Nummern/Text
-        const regex = /(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})/g;
-        const parsedStamps: ClipTimestamp[] = [];
-        let match;
-
-        while ((match = regex.exec(text)) !== null) {
-          parsedStamps.push({
-            start: parseTimeToSeconds(match[1]),
-            end: parseTimeToSeconds(match[2]),
-          });
-        }
-        
-        setTimestamps(parsedStamps);
-      } catch (error) {
-        console.error('Fehler beim Laden der Timestamps:', error);
-      }
-    };
-
-    fetchTimestamps();
-  }, []);
 
   // 2. Kontinuierliche Prüfung der Abspielzeit über requestAnimationFrame
   useEffect(() => {
@@ -71,7 +37,7 @@ const VideoSequencer: React.FC = () => {
           // Springe zum nächsten Clip in der Sequenz
           const nextClipIndex = playSequence[nextSequenceIndex] - 1;
           const nextClip = timestamps[nextClipIndex];
-          
+
           if (nextClip) {
             video.currentTime = nextClip.start;
             setSequenceIndex(nextSequenceIndex);
@@ -112,26 +78,26 @@ const VideoSequencer: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '600px' }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px" }}>
       <video
         ref={videoRef}
         src="/videos/clip_1.mp4"
         controls
         width="100%"
-        style={{ borderRadius: '8px', backgroundColor: '#000' }}
+        style={{ borderRadius: "8px", backgroundColor: "#000" }}
       />
-      
-      <button 
+
+      <button
         onClick={handleStartSequence}
         disabled={isPlaying || timestamps.length === 0}
-        style={{ padding: '10px', fontSize: '16px', cursor: 'pointer' }}
+        style={{ padding: "10px", fontSize: "16px", cursor: "pointer" }}
       >
-        {isPlaying ? 'Sequenz läuft...' : 'Debug Sequenz [1, 5, 3, 4] abspielen'}
+        {isPlaying ? "Sequenz läuft..." : "Debug Sequenz [1, 5, 3, 4] abspielen"}
       </button>
 
       <div>
-        <strong>Aktueller Schritt: </strong> 
-        {isPlaying ? `${sequenceIndex + 1} von ${playSequence.length}` : 'Pausiert/Beendet'}
+        <strong>Aktueller Schritt: </strong>
+        {isPlaying ? `${sequenceIndex + 1} von ${playSequence.length}` : "Pausiert/Beendet"}
       </div>
     </div>
   );

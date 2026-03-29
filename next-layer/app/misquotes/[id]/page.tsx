@@ -113,7 +113,9 @@ export default async function MisquotePage({
         );
     }
 
-    const score = ((data.sentiment.score + 1) / 2 ) * 0.8 + (data.checklang.score / 2) * 0.2;
+    const score =
+        (((data.sentiment?.score ?? 0) + 1) / 2) * 0.8 +
+        ((data.checklang?.score ?? 0) / 2) * 0.2;
     const pct = scoreToPercent(score);
     const accent = colorForPercent(pct);
 
@@ -127,7 +129,9 @@ export default async function MisquotePage({
     }
 
     const entries = Array.from(globalScores.scores?.values() ?? []);
-    const sorted = [...entries].sort((a, b) => b.finalScore - a.finalScore);
+    const sorted = [...entries].sort(
+        (a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0)
+    );
     const rankIdx = sorted.findIndex((e) => e.id === data.id);
     const place = rankIdx >= 0 ? rankIdx + 1 : null;
 
@@ -136,8 +140,10 @@ export default async function MisquotePage({
     const ringOffset = ringC * (1 - pct / 100);
 
     const overallGoodPct = clampPct(score * 100);
-    const grammarPct = clampPct(data.checklang.score * 100);
-    const sentimentPct = clampPct(((data.sentiment.score + 1) / 2) * 100);
+    const grammarPct = clampPct((data.checklang?.score ?? 0) * 100);
+    const sentimentPct = clampPct(
+        (((data.sentiment?.score ?? 0) + 1) / 2) * 100
+    );
     const reactionGif =
         scoreText === "happy"
             ? "/gifs/bad.gif"

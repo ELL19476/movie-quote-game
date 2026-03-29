@@ -1,10 +1,9 @@
 import QuoteClient from "./QuoteClient";
-import quotesData from "@/data/quotes.json";
+import { getRandomQuoteFromTimestamps } from "@/lib/stamps";
 import { Quote } from "./types/Quote";
 
 function getRandomQuote(): Quote {
-    const i = Math.floor(Math.random() * quotesData.length);
-    return quotesData[i];
+    return getRandomQuoteFromTimestamps();
 }
 
 export default function Home() {
