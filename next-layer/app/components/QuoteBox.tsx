@@ -1,46 +1,118 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type QuoteBoxProps = {
     quote: string;
 };
 
+function tokenize(text: string) {
+    return text.match(/[\w’']+|[.,!?;:]/g) ?? [];
+}
+
+function norm(token: string) {
+    return token.toLowerCase();
+}
+
 export default function QuoteBox({ quote }: QuoteBoxProps) {
-    // split into words + punctuation tokens
-    const tokens = quote.match(/[\w’']+|[.,!?;:]/g) ?? [];
+    const tokens = useMemo(() => tokenize(quote), [quote]);
 
-    const [selected, setSelected] = useState<number[]>([]);
+    const limitMap = useMemo(() => {
+        const map = new Map<string, number>();
 
-    const isSelected = (index: number) => selected.includes(index);
+        for (const t of tokens) {
+            const key = norm(t);
+            map.set(key, (map.get(key) || 0) + 1);
+        }
 
-    const handleClick = (index: number) => {
-        setSelected((prev) => {
-            if (prev.includes(index)) {
-                return prev.filter((i) => i !== index);
+        return map;
+    }, [tokens]);
+
+    const [input, setInput] = useState("");
+
+    const inputTokens = useMemo(
+        () => (input.trim() ? tokenize(input) : []),
+        [input]
+    );
+
+    const isValid = useMemo(() => {
+        const used = new Map<string, number>();
+
+        for (const t of inputTokens) {
+            const key = norm(t);
+
+            const next = (used.get(key) || 0) + 1;
+            if (next > (limitMap.get(key) || 0)) return false;
+
+            used.set(key, next);
+        }
+
+        return true;
+    }, [inputTokens, limitMap]);
+
+    const selectedIndices = useMemo(() => {
+        const used = new Map<string, number>();
+        const indices: number[] = [];
+
+        for (const t of inputTokens) {
+            const key = norm(t);
+
+            const count = (used.get(key) || 0) + 1;
+            used.set(key, count);
+
+            let seen = 0;
+
+            for (let i = 0; i < tokens.length; i++) {
+                if (norm(tokens[i]) === key) {
+                    seen++;
+                    if (seen === count) {
+                        indices.push(i);
+                        break;
+                    }
+                }
             }
-            return [...prev, index];
+        }
+
+        return indices;
+    }, [inputTokens, tokens]);
+
+    const isSelected = (index: number) =>
+        selectedIndices.includes(index);
+
+    const handleTokenClick = (token: string) => {
+        setInput((prev) => {
+            const current = prev.trim() ? tokenize(prev) : [];
+
+            const key = norm(token);
+
+            const idx = current.findIndex((t) => norm(t) === key);
+
+            if (idx !== -1) {
+                current.splice(idx, 1);
+            } else {
+                current.push(token);
+            }
+
+            return current.join(" ");
         });
     };
 
-    const selectedText = selected.map((i) => tokens[i]).join(" ");
-
     return (
-        <div className="flex flex-col w-full max-w-md rounded-2xl shadow-lg bg-white dark:bg-zinc-900 p-6 gap-4">
-            {/* tokenized quote */}
-            <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col w-full max-w-2xl gap-8 text-lg">
+            {/* tokens */}
+            <div className="flex flex-wrap gap-3">
                 {tokens.map((token, index) => {
                     const active = isSelected(index);
 
                     return (
                         <button
                             key={index}
-                            onClick={() => handleClick(index)}
+                            onClick={() => handleTokenClick(token)}
                             className={`
-                                text-sm transition
+                                text-lg transition
                                 ${
                                     active
-                                        ? "px-2 py-1 rounded-lg bg-green-300 dark:bg-green-800 text-green-900 dark:text-green-100"
+                                        ? "px-4 py-2 rounded-xl bg-green-300 dark:bg-green-800 text-green-900 dark:text-green-100"
                                         : "underline decoration-transparent hover:decoration-current"
                                 }
                             `}
@@ -51,19 +123,29 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
                 })}
             </div>
 
-            {/* always visible input */}
+            {/* input */}
             <input
-                type="text"
-                value={selectedText}
-                readOnly
-                placeholder="Build the quote..."
-                className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent px-4 py-2 text-sm"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type or click words..."
+                className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition
+                    ${
+                        isValid
+                            ? "border-zinc-300 dark:border-zinc-700 focus:ring-2 focus:ring-black dark:focus:ring-white"
+                            : "border-red-500 focus:ring-2 focus:ring-red-500"
+                    }`}
             />
+
+            {!isValid && (
+                <div className="text-base text-red-500">
+                    Invalid: token used more times than allowed.
+                </div>
+            )}
 
             {/* reset */}
             <button
-                onClick={() => setSelected([])}
-                className="self-end text-sm text-zinc-500 hover:text-black dark:hover:text-white"
+                onClick={() => setInput("")}
+                className="self-end text-base text-zinc-500 hover:text-black dark:hover:text-white"
             >
                 Reset
             </button>
