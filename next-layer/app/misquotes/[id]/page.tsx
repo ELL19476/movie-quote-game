@@ -27,9 +27,47 @@ export default async function MisquotePage({
         );
     }
 
+    const score = (data.sentiment.score + 1) / 2 + data.checklang.score / 2;
+    var scoreText = "";
+    var scoreColor = "";
+    if (score > 0.3 && score < 0.7) {
+        scoreText = "neutral";
+        scoreColor = "fill-zinc-500";
+    } else if (score < 0.3) {
+        scoreText = "shocked";
+        scoreColor = "fill-green-500";
+    } else {
+        scoreText = "happy";
+        scoreColor = "fill-red-500";
+    }
+    const reactionGif =
+        scoreText === "happy"
+            ? "/gifs/bad.gif"
+            : scoreText === "shocked"
+              ? "/gifs/good.gif"
+              : "/gifs/neutral.gif";
+
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
             <div className="flex flex-col gap-6 w-full max-w-2xl">
+                <div className="w-full">
+                    <svg viewBox="0 0 600 140" className="h-24 w-full">
+                        <path id="title-curve" d="M 80 110 Q 300 10 520 110" fill="transparent" />
+                        <text className={`text-[32px] font-semibold ${scoreColor}`}>
+                            <textPath href="#title-curve" startOffset="50%" textAnchor="middle">
+                                The public was {scoreText}.
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+                <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-zinc-300 dark:border-zinc-700">
+                    <img
+                        src={reactionGif}
+                        alt={`${scoreText} reaction`}
+                        className="h-full w-full object-cover"
+                    />
+                </div>
                 {/* original quote */}
                 <div className="text-lg text-zinc-600 dark:text-zinc-300">
                     Original: {data.quote.text}
