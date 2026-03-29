@@ -18,10 +18,8 @@ export type ScoreResponse = {
 function sentimentScore(
     labels: { label: string; score: number }[]
 ): number {
-    const good = labels.find((r) => r.label === 'good')?.score ?? 0
     const evil = labels.find((r) => r.label === 'evil')?.score ?? 0
-    // With default multi_label=false, label probabilities sum to 1 → range is [-1, 1]
-    return good - evil
+    return evil
 }
 
 export async function POST(request: Request): Promise<Response> {

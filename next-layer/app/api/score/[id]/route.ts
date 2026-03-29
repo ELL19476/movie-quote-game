@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getScore } from "../../ScoresStore";
+import { getRankForId, getScore } from "../../ScoresStore";
 
 export async function GET(
     request: NextRequest,
@@ -7,7 +7,7 @@ export async function GET(
 ) {
     const { id } = await context.params;
 
-    const entry = getScore(id);
+    const entry = await getScore(id);
 
     if (!entry) {
         return Response.json(
@@ -16,5 +16,8 @@ export async function GET(
         );
     }
 
-    return Response.json(entry);
+    return Response.json({
+        ...entry,
+        rank: getRankForId(id),
+    });
 }

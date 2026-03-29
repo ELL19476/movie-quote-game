@@ -64,9 +64,15 @@ export async function POST(request: Request) {
                     id,
                     quote,
                     text,
-                    checklang: checklangData.score,
-                    sentiment: sentimentData.score,
-                    finalScore: (sentimentData.score + 1) / 2 + checklangData.score / 2 // TODO Change calc
+                    checklang: {
+                        imput: checklangData.input,
+                        score: checklangData.score,
+                    },
+                    sentiment: {
+                        imput: sentimentData.input,
+                        score: sentimentData.score,
+                    },
+                    finalScore: sentimentData.score * 0.8 + checklangData.score * 0.2
                 };
                 console.log("entry", entry);
 
