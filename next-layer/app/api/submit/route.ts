@@ -1,8 +1,10 @@
+import { Quote } from "../../types/Quote";
+
 export type ScoreEntry = {
     id: string;
 
     // original quote shown to user
-    quote: string;
+    quote: Quote;
 
     // user submitted text (misquote)
     text: string;

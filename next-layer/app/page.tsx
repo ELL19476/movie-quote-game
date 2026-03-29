@@ -1,8 +1,9 @@
 import Image from "next/image";
 import QuoteBox from "./components/QuoteBox";
 import quotesData from "@/data/quotes.json";
+import { Quote } from "./types/Quote";
 
-function getRandomQuote() {
+function getRandomQuote(): Quote {
     const i = Math.floor(Math.random() * quotesData.length);
     return quotesData[i];
 }

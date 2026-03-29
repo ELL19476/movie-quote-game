@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Quote } from "../types/Quote";
 
 type QuoteBoxProps = {
-    quote: string;
+    quote: Quote;
     onSubmit?: (
         tokens: string[],
         result: { input: string; score: number; id: string }
@@ -20,7 +21,7 @@ function norm(t: string) {
 }
 
 export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
-    const tokens = useMemo(() => tokenize(quote), [quote]);
+    const tokens = useMemo(() => tokenize(quote.text), [quote]);
     const router = useRouter();
 
     const [input, setInput] = useState("");
@@ -198,6 +199,7 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
             {/* INPUT */}
             <input
+                autoComplete="off"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type or click words..."

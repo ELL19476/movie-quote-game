@@ -31,7 +31,7 @@ export default async function MisquotePage({
             <div className="flex flex-col gap-6 w-full max-w-2xl">
                 {/* original quote */}
                 <div className="text-lg text-zinc-600 dark:text-zinc-300">
-                    Original: {data.quote}
+                    Original: {data.quote.text}
                 </div>
                 <div className="text-xl font-medium">
                     {data.text}
