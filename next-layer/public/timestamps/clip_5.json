@@ -1,0 +1,129 @@
+{
+  "text": " Whatever life holds in store for me, I will never forget these words. With great power comes great responsibility. This is my gift. My curse. Who am I? I'm Spider-Man.",
+  "chunks": [
+    {
+      "text": " Whatever",
+      "timestamp": [0, 0.22]
+    },
+    {
+      "text": " life",
+      "timestamp": [0.22, 0.58]
+    },
+    {
+      "text": " holds",
+      "timestamp": [0.58, 0.88]
+    },
+    {
+      "text": " in",
+      "timestamp": [0.88, 1.1]
+    },
+    {
+      "text": " store",
+      "timestamp": [1.1, 1.38]
+    },
+    {
+      "text": " for",
+      "timestamp": [1.38, 1.64]
+    },
+    {
+      "text": " me,",
+      "timestamp": [1.64, 1.88]
+    },
+    {
+      "text": " I",
+      "timestamp": [2.3, 3.04]
+    },
+    {
+      "text": " will",
+      "timestamp": [3.04, 3.14]
+    },
+    {
+      "text": " never",
+      "timestamp": [3.14, 3.4]
+    },
+    {
+      "text": " forget",
+      "timestamp": [3.4, 3.84]
+    },
+    {
+      "text": " these",
+      "timestamp": [3.84, 4.14]
+    },
+    {
+      "text": " words.",
+      "timestamp": [4.14, 4.64]
+    },
+    {
+      "text": " With",
+      "timestamp": [5.92, 6.14]
+    },
+    {
+      "text": " great",
+      "timestamp": [6.14, 6.36]
+    },
+    {
+      "text": " power",
+      "timestamp": [6.36, 6.86]
+    },
+    {
+      "text": " comes",
+      "timestamp": [6.86, 7.94]
+    },
+    {
+      "text": " great",
+      "timestamp": [7.94, 8.26]
+    },
+    {
+      "text": " responsibility.",
+      "timestamp": [8.26, 9.16]
+    },
+    {
+      "text": " This",
+      "timestamp": [10.56, 11.08]
+    },
+    {
+      "text": " is",
+      "timestamp": [11.08, 11.22]
+    },
+    {
+      "text": " my",
+      "timestamp": [11.22, 11.46]
+    },
+    {
+      "text": " gift.",
+      "timestamp": [11.46, 11.9]
+    },
+    {
+      "text": " My",
+      "timestamp": [13.22, 13.46]
+    },
+    {
+      "text": " curse.",
+      "timestamp": [13.46, 13.84]
+    },
+    {
+      "text": " Who",
+      "timestamp": [15.36, 16]
+    },
+    {
+      "text": " am",
+      "timestamp": [16, 16.12]
+    },
+    {
+      "text": " I?",
+      "timestamp": [16.12, 16.36]
+    },
+    {
+      "text": " I'm",
+      "timestamp": [17.86, 18.42]
+    },
+    {
+      "text": " Spider",
+      "timestamp": [18.42, 18.86]
+    },
+    {
+      "text": "-Man.",
+      "timestamp": [18.86, 19.18]
+    }
+  ]
+}

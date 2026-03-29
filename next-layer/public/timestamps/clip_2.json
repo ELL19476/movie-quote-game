@@ -1,0 +1,413 @@
+{
+  "text": " We'll always have Paris. We didn't have... we lost it until you came to Casablanca. We got it back last night. When I said I would never leave you. And you never will. But I've got a job to do too. Where I'm going, you can't follow. What I've got to do, you can't be any part of. It was I'm not going to be noble. But it doesn't take much to see that the problems of three little people don't amount to a hill of beans in this crazy world. Someday you'll understand that. Ah, ah. He's looking at you, kid.",
+  "chunks": [
+    {
+      "text": " We'll",
+      "timestamp": [0, 1.2]
+    },
+    {
+      "text": " always",
+      "timestamp": [1.2, 1.42]
+    },
+    {
+      "text": " have",
+      "timestamp": [1.42, 1.58]
+    },
+    {
+      "text": " Paris.",
+      "timestamp": [1.58, 1.92]
+    },
+    {
+      "text": " We",
+      "timestamp": [2.62, 2.72]
+    },
+    {
+      "text": " didn't",
+      "timestamp": [2.72, 3.02]
+    },
+    {
+      "text": " have...",
+      "timestamp": [3.02, 3.16]
+    },
+    {
+      "text": " we",
+      "timestamp": [3.44, 3.8]
+    },
+    {
+      "text": " lost",
+      "timestamp": [3.8, 4.04]
+    },
+    {
+      "text": " it",
+      "timestamp": [4.04, 4.28]
+    },
+    {
+      "text": " until",
+      "timestamp": [4.28, 4.48]
+    },
+    {
+      "text": " you",
+      "timestamp": [4.48, 4.62]
+    },
+    {
+      "text": " came",
+      "timestamp": [4.62, 4.78]
+    },
+    {
+      "text": " to",
+      "timestamp": [4.78, 4.92]
+    },
+    {
+      "text": " Casablanca.",
+      "timestamp": [4.92, 5.52]
+    },
+    {
+      "text": " We",
+      "timestamp": [6.04, 6.16]
+    },
+    {
+      "text": " got",
+      "timestamp": [6.16, 6.24]
+    },
+    {
+      "text": " it",
+      "timestamp": [6.24, 6.34]
+    },
+    {
+      "text": " back",
+      "timestamp": [6.34, 6.54]
+    },
+    {
+      "text": " last",
+      "timestamp": [6.54, 6.92]
+    },
+    {
+      "text": " night.",
+      "timestamp": [6.92, 7.16]
+    },
+    {
+      "text": " When",
+      "timestamp": [8.26, 8.92]
+    },
+    {
+      "text": " I",
+      "timestamp": [8.92, 9.02]
+    },
+    {
+      "text": " said",
+      "timestamp": [9.02, 9.22]
+    },
+    {
+      "text": " I",
+      "timestamp": [9.22, 9.4]
+    },
+    {
+      "text": " would",
+      "timestamp": [9.4, 9.56]
+    },
+    {
+      "text": " never",
+      "timestamp": [9.56, 9.9]
+    },
+    {
+      "text": " leave",
+      "timestamp": [9.9, 10.2]
+    },
+    {
+      "text": " you.",
+      "timestamp": [10.2, 10.48]
+    },
+    {
+      "text": " And",
+      "timestamp": [11.18, 11.5]
+    },
+    {
+      "text": " you",
+      "timestamp": [11.5, 11.6]
+    },
+    {
+      "text": " never",
+      "timestamp": [11.6, 11.84]
+    },
+    {
+      "text": " will.",
+      "timestamp": [11.84, 12.1]
+    },
+    {
+      "text": " But",
+      "timestamp": [12.88, 13.08]
+    },
+    {
+      "text": " I've",
+      "timestamp": [13.08, 13.24]
+    },
+    {
+      "text": " got",
+      "timestamp": [13.24, 13.3]
+    },
+    {
+      "text": " a",
+      "timestamp": [13.3, 13.38]
+    },
+    {
+      "text": " job",
+      "timestamp": [13.38, 13.58]
+    },
+    {
+      "text": " to",
+      "timestamp": [13.58, 13.72]
+    },
+    {
+      "text": " do",
+      "timestamp": [13.72, 13.84]
+    },
+    {
+      "text": " too.",
+      "timestamp": [13.84, 14.12]
+    },
+    {
+      "text": " Where",
+      "timestamp": [14.66, 14.86]
+    },
+    {
+      "text": " I'm",
+      "timestamp": [14.86, 15.08]
+    },
+    {
+      "text": " going,",
+      "timestamp": [15.08, 15.32]
+    },
+    {
+      "text": " you",
+      "timestamp": [15.42, 15.48]
+    },
+    {
+      "text": " can't",
+      "timestamp": [15.48, 15.82]
+    },
+    {
+      "text": " follow.",
+      "timestamp": [15.82, 16.04]
+    },
+    {
+      "text": " What",
+      "timestamp": [16.2, 16.2]
+    },
+    {
+      "text": " I've",
+      "timestamp": [16.2, 16.4]
+    },
+    {
+      "text": " got",
+      "timestamp": [16.4, 16.46]
+    },
+    {
+      "text": " to",
+      "timestamp": [16.46, 16.6]
+    },
+    {
+      "text": " do,",
+      "timestamp": [16.6, 16.74]
+    },
+    {
+      "text": " you",
+      "timestamp": [16.78, 16.86]
+    },
+    {
+      "text": " can't",
+      "timestamp": [16.86, 17.16]
+    },
+    {
+      "text": " be",
+      "timestamp": [17.16, 17.24]
+    },
+    {
+      "text": " any",
+      "timestamp": [17.24, 17.46]
+    },
+    {
+      "text": " part",
+      "timestamp": [17.46, 17.72]
+    },
+    {
+      "text": " of.",
+      "timestamp": [17.72, 17.9]
+    },
+    {
+      "text": " It",
+      "timestamp": [18.86, 19.06]
+    },
+    {
+      "text": " was",
+      "timestamp": [19.06, 19.16]
+    },
+    {
+      "text": " I'm",
+      "timestamp": [19.16, 19.4]
+    },
+    {
+      "text": " not",
+      "timestamp": [19.4, 19.46]
+    },
+    {
+      "text": " going",
+      "timestamp": [19.46, 19.58]
+    },
+    {
+      "text": " to",
+      "timestamp": [19.58, 19.68]
+    },
+    {
+      "text": " be",
+      "timestamp": [19.68, 19.8]
+    },
+    {
+      "text": " noble.",
+      "timestamp": [19.8, 20.2]
+    },
+    {
+      "text": " But",
+      "timestamp": [20.78, 20.84]
+    },
+    {
+      "text": " it",
+      "timestamp": [20.84, 20.9]
+    },
+    {
+      "text": " doesn't",
+      "timestamp": [20.9, 21.08]
+    },
+    {
+      "text": " take",
+      "timestamp": [21.08, 21.22]
+    },
+    {
+      "text": " much",
+      "timestamp": [21.22, 21.38]
+    },
+    {
+      "text": " to",
+      "timestamp": [21.38, 21.6]
+    },
+    {
+      "text": " see",
+      "timestamp": [21.6, 21.8]
+    },
+    {
+      "text": " that",
+      "timestamp": [21.8, 21.98]
+    },
+    {
+      "text": " the",
+      "timestamp": [21.98, 22.06]
+    },
+    {
+      "text": " problems",
+      "timestamp": [22.06, 22.38]
+    },
+    {
+      "text": " of",
+      "timestamp": [22.38, 22.58]
+    },
+    {
+      "text": " three",
+      "timestamp": [22.58, 22.88]
+    },
+    {
+      "text": " little",
+      "timestamp": [22.88, 23.08]
+    },
+    {
+      "text": " people",
+      "timestamp": [23.08, 23.4]
+    },
+    {
+      "text": " don't",
+      "timestamp": [23.4, 23.62]
+    },
+    {
+      "text": " amount",
+      "timestamp": [23.62, 23.84]
+    },
+    {
+      "text": " to",
+      "timestamp": [23.84, 24.02]
+    },
+    {
+      "text": " a",
+      "timestamp": [24.02, 24.14]
+    },
+    {
+      "text": " hill",
+      "timestamp": [24.14, 24.26]
+    },
+    {
+      "text": " of",
+      "timestamp": [24.26, 24.4]
+    },
+    {
+      "text": " beans",
+      "timestamp": [24.4, 24.6]
+    },
+    {
+      "text": " in",
+      "timestamp": [24.6, 24.86]
+    },
+    {
+      "text": " this",
+      "timestamp": [24.86, 25]
+    },
+    {
+      "text": " crazy",
+      "timestamp": [25, 25.36]
+    },
+    {
+      "text": " world.",
+      "timestamp": [25.36, 25.88]
+    },
+    {
+      "text": " Someday",
+      "timestamp": [26.44, 27.48]
+    },
+    {
+      "text": " you'll",
+      "timestamp": [27.48, 27.74]
+    },
+    {
+      "text": " understand",
+      "timestamp": [27.74, 28.08]
+    },
+    {
+      "text": " that.",
+      "timestamp": [28.08, 28.7]
+    },
+    {
+      "text": " Ah,",
+      "timestamp": [29.44, 31.1]
+    },
+    {
+      "text": " ah.",
+      "timestamp": [31.18, 31.28]
+    },
+    {
+      "text": " He's",
+      "timestamp": [32.4, 34.6]
+    },
+    {
+      "text": " looking",
+      "timestamp": [34.6, 34.84]
+    },
+    {
+      "text": " at",
+      "timestamp": [34.84, 35.04]
+    },
+    {
+      "text": " you,",
+      "timestamp": [35.04, 35.18]
+    },
+    {
+      "text": " kid.",
+      "timestamp": [35.3, 35.42]
+    }
+  ]
+}

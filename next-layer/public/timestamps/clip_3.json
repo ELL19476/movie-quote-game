@@ -1,0 +1,441 @@
+{
+  "text": " It's like in the great stories, Mr. Frootl. The ones that really mattered. Full of darkness and danger they were. And sometimes you didn't want to know the end. Because how could the end be happy? How could the world go back to the way it was when so much bad had happened? What in the end? It's only a passing thing. This shadow... even darkness must pass. A new day will come. And when the sun shines, it'll shine out the clearer. I know now. Foking those stories had lots of chances of turning back when they didn't. They kept going because they were holding on to something.",
+  "chunks": [
+    {
+      "text": " It's",
+      "timestamp": [0, 3.9]
+    },
+    {
+      "text": " like",
+      "timestamp": [3.9, 4.02]
+    },
+    {
+      "text": " in",
+      "timestamp": [4.02, 4.18]
+    },
+    {
+      "text": " the",
+      "timestamp": [4.18, 4.24]
+    },
+    {
+      "text": " great",
+      "timestamp": [4.24, 4.46]
+    },
+    {
+      "text": " stories,",
+      "timestamp": [4.46, 4.98]
+    },
+    {
+      "text": " Mr.",
+      "timestamp": [5.16, 5.32]
+    },
+    {
+      "text": " Frootl.",
+      "timestamp": [5.4, 5.66]
+    },
+    {
+      "text": " The",
+      "timestamp": [6.88, 7.14]
+    },
+    {
+      "text": " ones",
+      "timestamp": [7.14, 7.38]
+    },
+    {
+      "text": " that",
+      "timestamp": [7.38, 7.62]
+    },
+    {
+      "text": " really",
+      "timestamp": [7.62, 7.92]
+    },
+    {
+      "text": " mattered.",
+      "timestamp": [7.92, 8.38]
+    },
+    {
+      "text": " Full",
+      "timestamp": [9.36, 10.68]
+    },
+    {
+      "text": " of",
+      "timestamp": [10.68, 10.86]
+    },
+    {
+      "text": " darkness",
+      "timestamp": [10.86, 11.28]
+    },
+    {
+      "text": " and",
+      "timestamp": [11.28, 11.56]
+    },
+    {
+      "text": " danger",
+      "timestamp": [11.56, 11.94]
+    },
+    {
+      "text": " they",
+      "timestamp": [11.94, 12.16]
+    },
+    {
+      "text": " were.",
+      "timestamp": [12.16, 12.38]
+    },
+    {
+      "text": " And",
+      "timestamp": [13.7, 13.82]
+    },
+    {
+      "text": " sometimes",
+      "timestamp": [13.82, 14.16]
+    },
+    {
+      "text": " you",
+      "timestamp": [14.16, 14.4]
+    },
+    {
+      "text": " didn't",
+      "timestamp": [14.4, 14.6]
+    },
+    {
+      "text": " want",
+      "timestamp": [14.6, 14.78]
+    },
+    {
+      "text": " to",
+      "timestamp": [14.78, 14.94]
+    },
+    {
+      "text": " know",
+      "timestamp": [14.94, 15.1]
+    },
+    {
+      "text": " the",
+      "timestamp": [15.1, 15.32]
+    },
+    {
+      "text": " end.",
+      "timestamp": [15.32, 15.58]
+    },
+    {
+      "text": " Because",
+      "timestamp": [16.54, 16.88]
+    },
+    {
+      "text": " how",
+      "timestamp": [16.88, 17.06]
+    },
+    {
+      "text": " could",
+      "timestamp": [17.06, 17.2]
+    },
+    {
+      "text": " the",
+      "timestamp": [17.2, 17.36]
+    },
+    {
+      "text": " end",
+      "timestamp": [17.36, 17.52]
+    },
+    {
+      "text": " be",
+      "timestamp": [17.52, 17.78]
+    },
+    {
+      "text": " happy?",
+      "timestamp": [17.78, 18.14]
+    },
+    {
+      "text": " How",
+      "timestamp": [20.28, 22.36]
+    },
+    {
+      "text": " could",
+      "timestamp": [22.36, 22.46]
+    },
+    {
+      "text": " the",
+      "timestamp": [22.46, 22.62]
+    },
+    {
+      "text": " world",
+      "timestamp": [22.62, 22.86]
+    },
+    {
+      "text": " go",
+      "timestamp": [22.86, 23.14]
+    },
+    {
+      "text": " back",
+      "timestamp": [23.14, 23.44]
+    },
+    {
+      "text": " to",
+      "timestamp": [23.44, 23.64]
+    },
+    {
+      "text": " the",
+      "timestamp": [23.64, 23.78]
+    },
+    {
+      "text": " way",
+      "timestamp": [23.78, 23.9]
+    },
+    {
+      "text": " it",
+      "timestamp": [23.9, 24.04]
+    },
+    {
+      "text": " was",
+      "timestamp": [24.04, 24.24]
+    },
+    {
+      "text": " when",
+      "timestamp": [24.24, 24.54]
+    },
+    {
+      "text": " so",
+      "timestamp": [24.54, 24.96]
+    },
+    {
+      "text": " much",
+      "timestamp": [24.96, 25.38]
+    },
+    {
+      "text": " bad",
+      "timestamp": [25.38, 25.74]
+    },
+    {
+      "text": " had",
+      "timestamp": [25.74, 26.02]
+    },
+    {
+      "text": " happened?",
+      "timestamp": [26.02, 26.34]
+    },
+    {
+      "text": " What",
+      "timestamp": [26.88, 30.28]
+    },
+    {
+      "text": " in",
+      "timestamp": [30.28, 34.02]
+    },
+    {
+      "text": " the",
+      "timestamp": [34.02, 34.16]
+    },
+    {
+      "text": " end?",
+      "timestamp": [34.16, 34.46]
+    },
+    {
+      "text": " It's",
+      "timestamp": [35.3, 35.46]
+    },
+    {
+      "text": " only",
+      "timestamp": [35.46, 35.68]
+    },
+    {
+      "text": " a",
+      "timestamp": [35.68, 35.86]
+    },
+    {
+      "text": " passing",
+      "timestamp": [35.86, 36.24]
+    },
+    {
+      "text": " thing.",
+      "timestamp": [36.24, 36.7]
+    },
+    {
+      "text": " This",
+      "timestamp": [37.16, 37.96]
+    },
+    {
+      "text": " shadow...",
+      "timestamp": [37.96, 38.4]
+    },
+    {
+      "text": " even",
+      "timestamp": [39.4, 39.7]
+    },
+    {
+      "text": " darkness",
+      "timestamp": [39.7, 40.3]
+    },
+    {
+      "text": " must",
+      "timestamp": [40.3, 40.64]
+    },
+    {
+      "text": " pass.",
+      "timestamp": [40.64, 41.06]
+    },
+    {
+      "text": " A",
+      "timestamp": [42.26, 42.46]
+    },
+    {
+      "text": " new",
+      "timestamp": [42.46, 42.62]
+    },
+    {
+      "text": " day",
+      "timestamp": [42.62, 42.96]
+    },
+    {
+      "text": " will",
+      "timestamp": [42.96, 43.22]
+    },
+    {
+      "text": " come.",
+      "timestamp": [43.22, 43.56]
+    },
+    {
+      "text": " And",
+      "timestamp": [45.42, 46.16]
+    },
+    {
+      "text": " when",
+      "timestamp": [46.16, 46.26]
+    },
+    {
+      "text": " the",
+      "timestamp": [46.26, 46.38]
+    },
+    {
+      "text": " sun",
+      "timestamp": [46.38, 46.58]
+    },
+    {
+      "text": " shines,",
+      "timestamp": [46.58, 47.06]
+    },
+    {
+      "text": " it'll",
+      "timestamp": [47.26, 47.38]
+    },
+    {
+      "text": " shine",
+      "timestamp": [47.38, 47.74]
+    },
+    {
+      "text": " out",
+      "timestamp": [47.74, 48.06]
+    },
+    {
+      "text": " the",
+      "timestamp": [48.06, 48.24]
+    },
+    {
+      "text": " clearer.",
+      "timestamp": [48.24, 48.68]
+    },
+    {
+      "text": " I",
+      "timestamp": [64.42, 64.42]
+    },
+    {
+      "text": " know",
+      "timestamp": [64.42, 64.56]
+    },
+    {
+      "text": " now.",
+      "timestamp": [64.62, 64.94]
+    },
+    {
+      "text": " Foking",
+      "timestamp": [66.7, 67.18]
+    },
+    {
+      "text": " those",
+      "timestamp": [67.18, 67.38]
+    },
+    {
+      "text": " stories",
+      "timestamp": [67.38, 67.94]
+    },
+    {
+      "text": " had",
+      "timestamp": [67.94, 69.38]
+    },
+    {
+      "text": " lots",
+      "timestamp": [69.38, 69.6]
+    },
+    {
+      "text": " of",
+      "timestamp": [69.6, 69.82]
+    },
+    {
+      "text": " chances",
+      "timestamp": [69.82, 70.24]
+    },
+    {
+      "text": " of",
+      "timestamp": [70.24, 70.46]
+    },
+    {
+      "text": " turning",
+      "timestamp": [70.46, 70.7]
+    },
+    {
+      "text": " back",
+      "timestamp": [70.7, 70.98]
+    },
+    {
+      "text": " when",
+      "timestamp": [70.98, 71.24]
+    },
+    {
+      "text": " they",
+      "timestamp": [71.24, 71.42]
+    },
+    {
+      "text": " didn't.",
+      "timestamp": [71.42, 71.96]
+    },
+    {
+      "text": " They",
+      "timestamp": [73.24, 73.74]
+    },
+    {
+      "text": " kept",
+      "timestamp": [73.74, 74]
+    },
+    {
+      "text": " going",
+      "timestamp": [74, 74.4]
+    },
+    {
+      "text": " because",
+      "timestamp": [74.4, 76.78]
+    },
+    {
+      "text": " they",
+      "timestamp": [76.78, 77.02]
+    },
+    {
+      "text": " were",
+      "timestamp": [77.02, 77.14]
+    },
+    {
+      "text": " holding",
+      "timestamp": [77.14, 77.44]
+    },
+    {
+      "text": " on",
+      "timestamp": [77.44, 77.66]
+    },
+    {
+      "text": " to",
+      "timestamp": [77.66, 77.88]
+    },
+    {
+      "text": " something.",
+      "timestamp": [77.88, 78.3]
+    }
+  ]
+}
