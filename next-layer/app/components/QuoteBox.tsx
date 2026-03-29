@@ -1,98 +1,149 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type QuoteBoxProps = {
     quote: string;
-    onSubmit?: (tokens: string[], result: { input: string; score: number }) => void;
+    onSubmit?: (
+        tokens: string[],
+        result: { input: string; score: number; id: string }
+    ) => void;
 };
 
 function tokenize(text: string) {
     return text.match(/[\w’']+|[.,!?;:]/g) ?? [];
 }
 
-function norm(token: string) {
-    return token.toLowerCase();
+function norm(t: string) {
+    return t.toLowerCase();
 }
 
 export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
     const tokens = useMemo(() => tokenize(quote), [quote]);
-
-    const limitMap = useMemo(() => {
-        const map = new Map<string, number>();
-        for (const t of tokens) {
-            const key = norm(t);
-            map.set(key, (map.get(key) || 0) + 1);
-        }
-        return map;
-    }, [tokens]);
+    const router = useRouter();
 
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<{ score: number } | null>(null);
 
+    // -----------------------------
+    // allowed frequency per word
+    // -----------------------------
+    const limitMap = useMemo(() => {
+        const map = new Map<string, number>();
+        for (const t of tokens) {
+            const k = norm(t);
+            map.set(k, (map.get(k) || 0) + 1);
+        }
+        return map;
+    }, [tokens]);
+
+    // -----------------------------
+    // input tokens
+    // -----------------------------
     const inputTokens = useMemo(
         () => (input.trim() ? tokenize(input) : []),
         [input]
     );
 
+    // -----------------------------
+    // validation
+    // -----------------------------
     const isValid = useMemo(() => {
         const used = new Map<string, number>();
 
         for (const t of inputTokens) {
-            const key = norm(t);
+            const k = norm(t);
+            const next = (used.get(k) || 0) + 1;
 
-            const next = (used.get(key) || 0) + 1;
-            if (next > (limitMap.get(key) || 0)) return false;
+            if (next > (limitMap.get(k) || 0)) return false;
 
-            used.set(key, next);
+            used.set(k, next);
         }
 
         return true;
     }, [inputTokens, limitMap]);
 
+    // -----------------------------
+    // map input → quote indices (for highlighting)
+    // -----------------------------
     const selectedIndices = useMemo(() => {
         const used = new Map<string, number>();
-        const indices: number[] = [];
+        const result: number[] = [];
 
         for (const t of inputTokens) {
-            const key = norm(t);
-            const count = (used.get(key) || 0) + 1;
-            used.set(key, count);
+            const k = norm(t);
+            const occ = (used.get(k) || 0) + 1;
+            used.set(k, occ);
 
             let seen = 0;
 
             for (let i = 0; i < tokens.length; i++) {
-                if (norm(tokens[i]) === key) {
+                if (norm(tokens[i]) === k) {
                     seen++;
-                    if (seen === count) {
-                        indices.push(i);
+                    if (seen === occ) {
+                        result.push(i);
                         break;
                     }
                 }
             }
         }
 
-        return indices;
+        return result;
     }, [inputTokens, tokens]);
 
-    const isSelected = (index: number) =>
-        selectedIndices.includes(index);
+    const isSelected = (i: number) => selectedIndices.includes(i);
 
+    // -----------------------------
+    // click handling (FIXED for duplicates)
+    // -----------------------------
     const handleTokenClick = (token: string) => {
         setInput((prev) => {
-            const current = prev.trim() ? tokenize(prev) : [];
+            const current = tokenize(prev);
             const key = norm(token);
 
-            const idx = current.findIndex((t) => norm(t) === key);
+            // count occurrences already in input
+            const used = new Map<string, number>();
 
-            if (idx !== -1) current.splice(idx, 1);
-            else current.push(token);
+            for (const t of current) {
+                const k = norm(t);
+                used.set(k, (used.get(k) || 0) + 1);
+            }
 
-            return current.join(" ");
+            const currentCount = used.get(key) || 0;
+
+            // count occurrences in quote
+            let quoteCount = 0;
+            for (const t of tokens) {
+                if (norm(t) === key) quoteCount++;
+            }
+
+            const rebuilt: string[] = [];
+
+            // if we can still add → always add
+            if (currentCount < quoteCount) {
+                return [...current, token].join(" ");
+            }
+
+            // otherwise remove LAST occurrence instead of first
+            let removed = false;
+
+            for (let i = current.length - 1; i >= 0; i--) {
+                if (!removed && norm(current[i]) === key) {
+                    removed = true;
+                    continue;
+                }
+                rebuilt.unshift(current[i]);
+            }
+
+            return rebuilt.join(" ");
         });
     };
 
+    // -----------------------------
+    // submit
+    // -----------------------------
     const handleSubmit = async () => {
         if (!isValid || loading) return;
 
@@ -106,14 +157,15 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ text: text }),
+                body: JSON.stringify({ quote, text }),
             });
 
             const data = await res.json();
 
             setResult(data);
-
             onSubmit?.(inputTokens, data);
+
+            router.push(`/misquotes/${data.id}`);
         } catch (err) {
             console.error("submit failed:", err);
         } finally {
@@ -123,7 +175,8 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
     return (
         <div className="flex flex-col w-full max-w-2xl gap-8 text-lg">
-            {/* tokens */}
+
+            {/* QUOTE */}
             <div className="flex flex-wrap gap-3">
                 {tokens.map((token, index) => {
                     const active = isSelected(index);
@@ -132,11 +185,10 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                         <button
                             key={index}
                             onClick={() => handleTokenClick(token)}
-                            className={`text-lg transition ${
-                                active
-                                    ? "px-4 py-2 rounded-xl bg-green-300 dark:bg-green-800 text-green-900 dark:text-green-100"
-                                    : "underline decoration-transparent hover:decoration-current"
-                            }`}
+                            className={`text-lg transition ${active
+                                ? "px-4 py-2 rounded-xl bg-green-300 dark:bg-green-800"
+                                : "underline decoration-transparent hover:decoration-current"
+                                }`}
                         >
                             {token}
                         </button>
@@ -144,56 +196,51 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                 })}
             </div>
 
-            {/* input */}
+            {/* INPUT */}
             <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type or click words..."
-                className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition
-                ${
-                    isValid
-                        ? "border-zinc-300 dark:border-zinc-700 focus:ring-2 focus:ring-black dark:focus:ring-white"
-                        : "border-red-500 focus:ring-2 focus:ring-red-500"
-                }`}
+                className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition ${isValid
+                    ? "border-zinc-300 dark:border-zinc-700"
+                    : "border-red-500"
+                    }`}
             />
 
             {!isValid && (
-                <div className="text-base text-red-500">
-                    Invalid: token used more times than allowed.
+                <div className="text-red-500 text-base">
+                    Too many uses of a word.
                 </div>
             )}
 
-            {result && (
-                <div className="text-base text-zinc-600 dark:text-zinc-300">
-                    Score: {result.score}
-                </div>
-            )}
-
-            {/* actions */}
-            <div className="flex items-center justify-between">
-                <button
-                    onClick={handleSubmit}
-                    disabled={!isValid || loading}
-                    className={`text-base px-5 py-2 rounded-xl transition
-                    ${
-                        isValid && !loading
-                            ? "bg-black text-white dark:bg-white dark:text-black"
-                            : "bg-zinc-300 text-zinc-500 cursor-not-allowed"
-                    }`}
-                >
-                    {loading ? "Checking..." : "Submit"}
-                </button>
-
+            {/* ACTIONS */}
+            <div className="flex justify-between">
                 <button
                     onClick={() => {
                         setInput("");
                         setResult(null);
                     }}
-                    className="text-base text-zinc-500 hover:text-black dark:hover:text-white"
                 >
                     Reset
                 </button>
+
+                <button
+                    onClick={handleSubmit}
+                    disabled={!isValid || loading}
+                    className={`px-5 py-2 rounded-xl ${isValid && !loading
+                        ? "bg-black text-white"
+                        : "bg-zinc-300 text-zinc-500"
+                        }`}
+                >
+                    {loading ? "Checking..." : "Submit"}
+                </button>
             </div>
+
+            {result && (
+                <div className="text-zinc-600">
+                    Score: {result.score}
+                </div>
+            )}
         </div>
     );
 }
