@@ -187,7 +187,7 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
 
                 router.push(`/misquotes/${data.id}`);
             }
-        } catch (err: any) {
+        } catch (err) {
             throw err
         } finally {
             setLoading(false);

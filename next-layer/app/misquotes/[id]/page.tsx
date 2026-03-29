@@ -16,6 +16,7 @@ export default async function MisquotePage({
     params: Promise<{ id: string }>;
 }) {
     const data = await getScore((await params).id);
+    console.log("getScoreData", data)
 
     if (!data) {
         return (
@@ -25,9 +26,10 @@ export default async function MisquotePage({
         );
     }
 
-    const score = ((data.sentiment.score + 1) / 2 ) * 0.8 + (data.checklang.score / 2) * 0.2;
-    var scoreText = "";
-    var scoreColor = "";
+    const score = data.finalScore;
+    
+    let scoreText = "";
+    let scoreColor = "";
     if (score > 0.3 && score < 0.7) {
         scoreText = "neutral";
         scoreColor = "fill-zinc-500";
@@ -44,9 +46,7 @@ export default async function MisquotePage({
             : scoreText === "shocked"
               ? "/gifs/good.gif"
               : "/gifs/neutral.gif";
-    const originalWords = data.quote.text.split(" ");
-    const finalWords = data.text.split(" ");
-    const n = originalWords.length;
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
@@ -61,38 +61,26 @@ export default async function MisquotePage({
                         </text>
                     </svg>
                 </div>
-                <div className="mx-auto h-60 w-60 overflow-hidden rounded-full border-4 border-zinc-300 dark:border-zinc-700 -mt-10">
+                <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-zinc-300 dark:border-zinc-700">
                     <img
                         src={reactionGif}
                         alt={`${scoreText} reaction`}
                         className="h-full w-full object-cover"
                     />
                 </div>
-                <div className="text-xl font-medium leading-relaxed">
-                    {Array.from({ length: n }, (_, i) => {
-                        const keep = originalWords.findIndex(word => word === finalWords[i]) !== -1;
-                        const delay = `${i * 0.08}s`;
-                        return (
-                            <span
-                                key={i}
-                                style={keep ? undefined : { animationDelay: delay }}
-                                className={
-                                    keep
-                                        ? "mr-1 inline-block"
-                                        : "mr-1 inline-block animate-[fadeUnused_.5s_ease_forwards] text-zinc-500 dark:text-zinc-400"
-                                }
-                            >
-                                {finalWords[i] || "\u00A0"}
-                            </span>
-                        );
-                    })}
+                {/* original quote */}
+                <div className="text-lg text-zinc-600 dark:text-zinc-300">
+                    Original: {data.quote.text}
+                </div>
+                <div className="text-xl font-medium">
+                    {data.text}
                 </div>
 
                 {/* score */}
                 <div className="text-lg">
-                    Score:{" "}
+                    Score: 
                     <span className="font-bold">
-                        {score}
+                        {score} 
                     </span>
                 </div>
                 <Link
@@ -102,7 +90,6 @@ export default async function MisquotePage({
                     View Leaderboard
                 </Link>
             </div>
-            <style>{`@keyframes fadeUnused { to { opacity: 0; } }`}</style>
         </div>
     );
 }

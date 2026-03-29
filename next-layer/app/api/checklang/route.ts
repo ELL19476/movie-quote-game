@@ -42,7 +42,7 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const client = new InferenceClient(token);
-    const prompt = `"${text}" Rate this sentence from 1 to 10. How well formed and natural is it? Ignore punctuation. Only return a single integer. Do NOT responde with anything else. "${text}"`;
+    const prompt = `"${text}" Rate this sentence from 1 to 10. How well formed and natural is it? Give points for lenght of the review as well. If it is really short give less points. Ignore punctuation. Only return a single integer. Do NOT responde with anything else. "${text}"`;
 
     try {
         const chatCompletion = await client.chatCompletion({

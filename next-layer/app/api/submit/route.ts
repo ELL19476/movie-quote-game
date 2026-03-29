@@ -63,9 +63,9 @@ export async function POST(request: Request) {
                     id,
                     quote,
                     text,
-                    checklang: checklangData ?? 0,
-                    sentiment: sentimentData ?? 0,
-                    finalScore: checklangData.score * sentimentData.score,
+                    checklang: checklangData.score,
+                    sentiment: sentimentData.score,
+                    finalScore: (sentimentData.score + 1) / 2 + checklangData.score / 2.
                 };
 
                 globalScores.scores!.set(id, entry);
