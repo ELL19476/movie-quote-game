@@ -12,9 +12,13 @@ function getStars(score: number) {
 }
 
 export default function LeaderboardPage() {
-    const entries = Array.from(globalScores.scores?.values() ?? []);
-    const sorted = entries.sort((a, b) => a.finalScore - b.finalScore);
+    const entries = Array.from(globalScores.scores?.values() ?? [])
+        .filter((entry): entry is ScoreEntry & { finalScore: number } =>
+            typeof entry.finalScore === "number"
+        );
 
+    const sorted = entries.sort((a, b) => a.finalScore - b.finalScore);
+    
     return (
         <div className="min-h-screen flex flex-col items-center justify-start p-10 bg-zinc-50 dark:bg-black">
             <h1 className="text-3xl font-bold mb-8">Leaderboard</h1>
