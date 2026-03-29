@@ -73,6 +73,13 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
         return true;
     }, [inputTokens, limitMap]);
 
+
+    const isEmpty = useMemo(() => {
+        if (inputTokens.length === 0) return true;
+
+        return false;
+    }, [inputTokens]);
+
     // -----------------------------
     // map input → quote indices (for highlighting)
     // -----------------------------
@@ -217,13 +224,13 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type or click words..."
-                className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition ${isValid
+                className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition ${isValid || isEmpty
                     ? "border-zinc-300 dark:border-zinc-700"
                     : "border-red-500"
                     }`}
             />
 
-            {!isValid && (
+            {!isValid && !isEmpty && (
                 <div className="text-red-500 text-base">
                     You did not use words from the Quote.
                 </div>
