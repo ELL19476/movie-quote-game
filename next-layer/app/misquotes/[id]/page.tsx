@@ -13,7 +13,7 @@ async function getScore(id: string): Promise<ScoreEntry | null> {
 export default async function MisquotePage({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
     const data = await getScore((await params).id);
     console.log(data)

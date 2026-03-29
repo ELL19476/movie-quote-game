@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import { ScoreEntry } from "../../submit/route";
 
 // TODO: Make this persistent
@@ -5,15 +6,16 @@ const globalScores = globalThis as unknown as {
     scores?: Map<string, ScoreEntry>;
 };
 
-if (!globalScores.scores) {
-    globalScores.scores = new Map();
-}
 
 export async function GET(
-    _req: Request,
-    { params }: { params: { id: string } }
+    request: NextRequest,
+    context: { params: Promise<{ id: string }> }
 ) {
-    const entry = globalScores.scores.get((await params).id);
+    if (!globalScores.scores) {
+        globalScores.scores = new Map();
+    }
+
+    const entry = globalScores.scores.get((await context.params).id);
 
     if (!entry) {
         return Response.json(
