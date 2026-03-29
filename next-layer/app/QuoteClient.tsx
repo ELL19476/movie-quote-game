@@ -9,11 +9,12 @@ export default function QuoteClient({ quote }: { quote: Quote }) {
             <div className="w-full max-w-2xl text-center space-y-8">
 
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
-                    Write a Bad Review
+                    Ruthlessly misquote this movie character
                 </h1>
 
                 <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base">
-                    Turn your thoughts into something brutally honest.
+                    Make them seem like the most evil person in the world.
+                    
                 </p>
 
                 <div className="bg-white/70 dark:bg-zinc-800/60 backdrop-blur-md border border-zinc-200 dark:border-zinc-700 rounded-2xl shadow-xl p-6 md:p-10 transition">

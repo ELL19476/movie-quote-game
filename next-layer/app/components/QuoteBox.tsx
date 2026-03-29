@@ -216,8 +216,8 @@ export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
                     );
                 })}
             </div>
-            - {quote.movie}
-
+            {/* {quote.movie} */}
+            <hr className="my-2 border-zinc-300 dark:border-zinc-700" />
             {/* INPUT */}
             <input
                 autoComplete="off"
