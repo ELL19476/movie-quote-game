@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 type QuoteBoxProps = {
     quote: string;
+    onSubmit?: (tokens: string[], result: { input: string; score: number }) => void;
 };
 
 function tokenize(text: string) {
@@ -14,21 +15,21 @@ function norm(token: string) {
     return token.toLowerCase();
 }
 
-export default function QuoteBox({ quote }: QuoteBoxProps) {
+export default function QuoteBox({ quote, onSubmit }: QuoteBoxProps) {
     const tokens = useMemo(() => tokenize(quote), [quote]);
 
     const limitMap = useMemo(() => {
         const map = new Map<string, number>();
-
         for (const t of tokens) {
             const key = norm(t);
             map.set(key, (map.get(key) || 0) + 1);
         }
-
         return map;
     }, [tokens]);
 
     const [input, setInput] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState<{ score: number } | null>(null);
 
     const inputTokens = useMemo(
         () => (input.trim() ? tokenize(input) : []),
@@ -56,7 +57,6 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
 
         for (const t of inputTokens) {
             const key = norm(t);
-
             const count = (used.get(key) || 0) + 1;
             used.set(key, count);
 
@@ -82,19 +82,43 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
     const handleTokenClick = (token: string) => {
         setInput((prev) => {
             const current = prev.trim() ? tokenize(prev) : [];
-
             const key = norm(token);
 
             const idx = current.findIndex((t) => norm(t) === key);
 
-            if (idx !== -1) {
-                current.splice(idx, 1);
-            } else {
-                current.push(token);
-            }
+            if (idx !== -1) current.splice(idx, 1);
+            else current.push(token);
 
             return current.join(" ");
         });
+    };
+
+    const handleSubmit = async () => {
+        if (!isValid || loading) return;
+
+        setLoading(true);
+
+        const text = inputTokens.join(" ");
+
+        try {
+            const res = await fetch("/api/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: text }),
+            });
+
+            const data = await res.json();
+
+            setResult(data);
+
+            onSubmit?.(inputTokens, data);
+        } catch (err) {
+            console.error("submit failed:", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -108,14 +132,11 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
                         <button
                             key={index}
                             onClick={() => handleTokenClick(token)}
-                            className={`
-                                text-lg transition
-                                ${
-                                    active
-                                        ? "px-4 py-2 rounded-xl bg-green-300 dark:bg-green-800 text-green-900 dark:text-green-100"
-                                        : "underline decoration-transparent hover:decoration-current"
-                                }
-                            `}
+                            className={`text-lg transition ${
+                                active
+                                    ? "px-4 py-2 rounded-xl bg-green-300 dark:bg-green-800 text-green-900 dark:text-green-100"
+                                    : "underline decoration-transparent hover:decoration-current"
+                            }`}
                         >
                             {token}
                         </button>
@@ -129,11 +150,11 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type or click words..."
                 className={`w-full rounded-2xl border px-6 py-4 text-lg bg-transparent outline-none transition
-                    ${
-                        isValid
-                            ? "border-zinc-300 dark:border-zinc-700 focus:ring-2 focus:ring-black dark:focus:ring-white"
-                            : "border-red-500 focus:ring-2 focus:ring-red-500"
-                    }`}
+                ${
+                    isValid
+                        ? "border-zinc-300 dark:border-zinc-700 focus:ring-2 focus:ring-black dark:focus:ring-white"
+                        : "border-red-500 focus:ring-2 focus:ring-red-500"
+                }`}
             />
 
             {!isValid && (
@@ -142,13 +163,37 @@ export default function QuoteBox({ quote }: QuoteBoxProps) {
                 </div>
             )}
 
-            {/* reset */}
-            <button
-                onClick={() => setInput("")}
-                className="self-end text-base text-zinc-500 hover:text-black dark:hover:text-white"
-            >
-                Reset
-            </button>
+            {result && (
+                <div className="text-base text-zinc-600 dark:text-zinc-300">
+                    Score: {result.score}
+                </div>
+            )}
+
+            {/* actions */}
+            <div className="flex items-center justify-between">
+                <button
+                    onClick={handleSubmit}
+                    disabled={!isValid || loading}
+                    className={`text-base px-5 py-2 rounded-xl transition
+                    ${
+                        isValid && !loading
+                            ? "bg-black text-white dark:bg-white dark:text-black"
+                            : "bg-zinc-300 text-zinc-500 cursor-not-allowed"
+                    }`}
+                >
+                    {loading ? "Checking..." : "Submit"}
+                </button>
+
+                <button
+                    onClick={() => {
+                        setInput("");
+                        setResult(null);
+                    }}
+                    className="text-base text-zinc-500 hover:text-black dark:hover:text-white"
+                >
+                    Reset
+                </button>
+            </div>
         </div>
     );
 }
