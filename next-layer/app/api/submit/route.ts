@@ -1,3 +1,4 @@
+import { error } from "console";
 import { Quote } from "../../types/Quote";
 import { setScore } from "../ScoresStore";
 
@@ -71,7 +72,9 @@ export async function POST(request: Request) {
                 setScore(entry);
             })
             .catch((err) => {
-                console.error("Submit error:", err);
+                console.error("Submit error during fetching:", err);
+
+                throw error
 
                 return Response.json(
                     { error: "Failed to process submission" },
@@ -93,6 +96,7 @@ export async function POST(request: Request) {
         return Response.json(entry);
     } catch (err) {
         console.error("Submit error:", err);
+        throw error
 
         return Response.json(
             { error: "Failed to process submission" },

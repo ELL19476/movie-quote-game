@@ -9,13 +9,18 @@ function getStars(score: number) {
     return normalized;
 }
 
-export default function LeaderboardPage() {
-    const entries = getAllScores()
-        .filter((entry): entry is ScoreEntry & { finalScore: number } =>
-            typeof entry.finalScore === "number"
-        );
+export default async function LeaderboardPage() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score`, { cache: "no-store" });
+    const all = await res.json();
 
-    const sorted = entries.sort((a, b) => b.finalScore - a.finalScore);
+    const entries = all.filter(
+        (entry: ScoreEntry): entry is ScoreEntry & { finalScore: number } =>
+            typeof entry.finalScore === "number"
+    );
+
+    const sorted = [...entries].sort(
+        (a, b) => b.finalScore - a.finalScore
+    );
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-start p-10 bg-zinc-50 dark:bg-black">

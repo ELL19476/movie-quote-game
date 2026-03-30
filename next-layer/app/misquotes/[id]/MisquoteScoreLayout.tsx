@@ -311,9 +311,7 @@ export default function MisquoteScoreLayout({
                         leaderboard
                     </Link>
 
-                    <div className="p-4">
-                        <NewQuoteButton />
-                    </div>
+                    <NewQuoteButton className="p-4" />
                 </p>
 
 
