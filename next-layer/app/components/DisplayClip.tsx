@@ -14,11 +14,14 @@ export default function DisplayClip({ id, playSequence }: DisplayClipProps) {
         process.cwd(),
         "public",
         "timestamps",
-        "stamps_" + id
+        "clip_" + id + ".json"
     );
 
     const raw = readFileSync(stampPath, "utf-8");
     const timestamps = clipTimestampsFromText(raw);
+
+    console.log(timestamps);
+    console.log(playSequence);
 
     return (
         <DisplayClipClient

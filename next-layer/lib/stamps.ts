@@ -24,49 +24,27 @@ function cleanCueText(text: string): string {
         .trim();
 }
 
-/** Parses SRT-style subtitle content (index, time range, text block). */
-export function parseStampsText(raw: string): StampCue[] {
-    const lines = raw.replace(/\r\n/g, "\n").split("\n");
-    const cues: StampCue[] = [];
-    let i = 0;
+export function parseStampsJson(raw: string): StampCue[] {
+    const data = JSON.parse(raw);
 
-    while (i < lines.length) {
-        const line = lines[i].trim();
-        if (line === "") {
-            i++;
-            continue;
-        }
-        if (!/^\d+$/.test(line)) {
-            i++;
-            continue;
-        }
-        const idx = parseInt(line, 10);
-        i++;
-        if (i >= lines.length) break;
-
-        const timeLine = lines[i];
-        const timeMatch = timeLine.match(
-            /(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})/
-        );
-        if (!timeMatch) {
-            i++;
-            continue;
-        }
-        const start = parseTimeToSeconds(timeMatch[1]);
-        const end = parseTimeToSeconds(timeMatch[2]);
-        i++;
-
-        const textLines: string[] = [];
-        while (i < lines.length && lines[i].trim() !== "") {
-            textLines.push(lines[i]);
-            i++;
-        }
-        const text = cleanCueText(textLines.join("\n"));
-        cues.push({ index: idx, start, end, text });
-        i++;
+    if (!data?.chunks || !Array.isArray(data.chunks)) {
+        throw new Error("Invalid timestamp JSON format");
     }
 
-    return cues;
+    return data.chunks.map((chunk: any, i: number) => {
+        if (!Array.isArray(chunk.timestamp) || chunk.timestamp.length !== 2) {
+            throw new Error(`Invalid timestamp at chunk ${i}`);
+        }
+
+        const [start, end] = chunk.timestamp;
+
+        return {
+            index: i,
+            start: Number(start),
+            end: Number(end),
+            text: (chunk.text ?? "").trim(),
+        };
+    });
 }
 
 function movieLabelFromTimestampFilename(filename: string): string {
@@ -94,7 +72,7 @@ export function findWordInTimestampFileByID(id: number, word: string): number {
     );
 
     const raw = fs.readFileSync(filePath, "utf-8");
-    const cues = parseStampsText(raw);
+    const cues = parseStampsJson(raw);
 
     const normalizedWord = word.trim().toLowerCase();
 
@@ -127,7 +105,7 @@ export function getRandomQuoteFromTimestamps(): Quote {
 
     const file = files[Math.floor(Math.random() * files.length)]!;
     const raw = fs.readFileSync(path.join(dir, file), "utf-8");
-    const cues = parseStampsText(raw).filter((c) => c.text.length > 0);
+    const cues = parseStampsJson(raw).filter((c) => c.text.length > 0);
 
     if (cues.length === 0) {
         throw new Error(`No cues with text in ${file}`);
@@ -139,5 +117,5 @@ export function getRandomQuoteFromTimestamps(): Quote {
 }
 
 export function clipTimestampsFromText(raw: string): ClipTimestamp[] {
-    return parseStampsText(raw).map(({ start, end }) => ({ start, end }));
+    return parseStampsJson(raw).map(({ start, end }) => ({ start, end }));
 }
