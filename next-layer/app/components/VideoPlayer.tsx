@@ -25,8 +25,10 @@ const VideoSequencer: React.FC<VideoSequencerProps> = ({ timestamps, playSequenc
             if (!video) return;
 
             // Wir ziehen 1 ab, da deine Liste 1-basiert ist (1. Element = Index 0)
-            const currentClipIndex = playSequence[sequenceIndex] - 1;
+            const currentClipIndex = playSequence[sequenceIndex];
             const currentClip = timestamps[currentClipIndex];
+
+            console.log(currentClipIndex, currentClip);
 
             if (currentClip && video.currentTime >= currentClip.end) {
                 // Haben wir das Ende des aktuellen Clips erreicht?
@@ -34,7 +36,7 @@ const VideoSequencer: React.FC<VideoSequencerProps> = ({ timestamps, playSequenc
 
                 if (nextSequenceIndex < playSequence.length) {
                     // Springe zum nächsten Clip in der Sequenz
-                    const nextClipIndex = playSequence[nextSequenceIndex] - 1;
+                    const nextClipIndex = playSequence[nextSequenceIndex];
                     const nextClip = timestamps[nextClipIndex];
 
                     if (nextClip) {
@@ -69,7 +71,7 @@ const VideoSequencer: React.FC<VideoSequencerProps> = ({ timestamps, playSequenc
         setSequenceIndex(0);
         setIsPlaying(true);
 
-        const firstClipIndex = playSequence[0] - 1;
+        const firstClipIndex = playSequence[0];
         if (timestamps[firstClipIndex]) {
             videoRef.current.currentTime = timestamps[firstClipIndex].start;
             videoRef.current.play();
@@ -83,6 +85,7 @@ const VideoSequencer: React.FC<VideoSequencerProps> = ({ timestamps, playSequenc
                 <video
                     ref={videoRef}
                     src={videoSrc}
+                    controls
                     className="block w-full h-auto"
                 />
 

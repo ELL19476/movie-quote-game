@@ -1,7 +1,7 @@
 import { InferenceClient } from '@huggingface/inference'
 
-const MODEL = 'valhalla/distilbart-mnli-12-1'
-// tasksource/deberta-small-long-nli
+const MODEL = 'tasksource/deberta-small-long-nli'
+// valhalla/distilbart-mnli-12-1
 const CANDIDATE_LABELS = ['good', 'evil'] as const
 
 // Body json input

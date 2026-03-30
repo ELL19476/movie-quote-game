@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ScoreEntry } from "../api/submit/route";
 import { getAllScores } from "../api/ScoresStore";
 import { Stars } from "../components/Stars";
+import NewQuoteButton from "../components/NewQuote";
 
 function getStars(score: number) {
     const normalized = Math.max(0, Math.min(5, score * 5));
@@ -14,7 +15,7 @@ export default function LeaderboardPage() {
             typeof entry.finalScore === "number"
         );
 
-    const sorted = entries.sort((a, b) => a.finalScore - b.finalScore);
+    const sorted = entries.sort((a, b) => b.finalScore - a.finalScore);
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-start p-10 bg-zinc-50 dark:bg-black">
@@ -39,6 +40,10 @@ export default function LeaderboardPage() {
                         </p>
                     </Link>
                 ))}
+            </div>
+
+            <div className="p-4">
+                <NewQuoteButton />
             </div>
         </div>
     );

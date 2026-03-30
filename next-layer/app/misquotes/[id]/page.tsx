@@ -44,13 +44,12 @@ export default async function MisquotePage({
 
     const used = new Set<number>();
     const keepByFinalOrder = finalWords.flatMap((word) => {
-        const i = originalWords.findIndex((w, idx) => w === word && !used.has(idx));
+        const i = originalWords.findIndex((w, idx) => w.toLowerCase() === word.toLowerCase() && !used.has(idx));
         if (i < 0) return [];
         used.add(i);
         return [{ i, word }];
     });
     const keepIndices = keepByFinalOrder.map(({ i }) => i);
-
     return (
         <>
             <DisplayClip id={entry.quote.id} playSequence={playSequence} />
