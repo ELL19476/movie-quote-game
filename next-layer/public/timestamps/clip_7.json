@@ -1,0 +1,141 @@
+{
+  "text": " You are too concerned with what was and what will be. There's a saying. Yesterday is history. Tomorrow is a mystery, but today is a gift. That is why it is called the present.",
+  "chunks": [
+    {
+      "text": " You",
+      "timestamp": [0.82, 1.12]
+    },
+    {
+      "text": " are",
+      "timestamp": [1.12, 1.26]
+    },
+    {
+      "text": " too",
+      "timestamp": [1.26, 1.52]
+    },
+    {
+      "text": " concerned",
+      "timestamp": [1.52, 2.06]
+    },
+    {
+      "text": " with",
+      "timestamp": [2.06, 2.4]
+    },
+    {
+      "text": " what",
+      "timestamp": [2.4, 2.54]
+    },
+    {
+      "text": " was",
+      "timestamp": [2.54, 2.98]
+    },
+    {
+      "text": " and",
+      "timestamp": [2.98, 3.56]
+    },
+    {
+      "text": " what",
+      "timestamp": [3.56, 4.06]
+    },
+    {
+      "text": " will",
+      "timestamp": [4.06, 4.34]
+    },
+    {
+      "text": " be.",
+      "timestamp": [4.34, 4.76]
+    },
+    {
+      "text": " There's",
+      "timestamp": [5.56, 6]
+    },
+    {
+      "text": " a",
+      "timestamp": [6, 6.12]
+    },
+    {
+      "text": " saying.",
+      "timestamp": [6.12, 6.68]
+    },
+    {
+      "text": " Yesterday",
+      "timestamp": [7.64, 8.16]
+    },
+    {
+      "text": " is",
+      "timestamp": [8.16, 9.34]
+    },
+    {
+      "text": " history.",
+      "timestamp": [9.34, 9.84]
+    },
+    {
+      "text": " Tomorrow",
+      "timestamp": [10.64, 11.06]
+    },
+    {
+      "text": " is",
+      "timestamp": [11.06, 11.7]
+    },
+    {
+      "text": " a",
+      "timestamp": [11.7, 11.82]
+    },
+    {
+      "text": " mystery,",
+      "timestamp": [11.82, 12.36]
+    },
+    {
+      "text": " but",
+      "timestamp": [12.94, 13.04]
+    },
+    {
+      "text": " today",
+      "timestamp": [13.04, 13.64]
+    },
+    {
+      "text": " is",
+      "timestamp": [13.64, 14.36]
+    },
+    {
+      "text": " a",
+      "timestamp": [14.36, 14.48]
+    },
+    {
+      "text": " gift.",
+      "timestamp": [14.48, 14.9]
+    },
+    {
+      "text": " That",
+      "timestamp": [15.8, 15.94]
+    },
+    {
+      "text": " is",
+      "timestamp": [15.94, 16.14]
+    },
+    {
+      "text": " why",
+      "timestamp": [16.14, 16.44]
+    },
+    {
+      "text": " it",
+      "timestamp": [16.44, 16.6]
+    },
+    {
+      "text": " is",
+      "timestamp": [16.6, 16.76]
+    },
+    {
+      "text": " called",
+      "timestamp": [16.76, 17.02]
+    },
+    {
+      "text": " the",
+      "timestamp": [17.02, 17.28]
+    },
+    {
+      "text": " present.",
+      "timestamp": [17.28, 17.7]
+    }
+  ]
+}
